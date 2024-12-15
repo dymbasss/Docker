@@ -1,0 +1,27 @@
+services:
+
+  smtp_broker:
+    container_name: ${CONTAINER_NAME}
+    image: ${CONTAINER_NAME:-None}:${BRANCH}-${TAG}-${COMMIT_SHORT_SHA}
+    build: .
+    hostname: ${CONTAINER_NAME}
+    restart: always
+    network_mode: bridge
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+    volumes:
+      - "smtp_broker_log:/usr/src/smtp_broker/app/logs:rw"
+
+volumes:
+  smtp_broker_log:
+    external: True
+
+networks:
+  bridge:
+    external: True
