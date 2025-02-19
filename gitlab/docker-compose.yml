@@ -1,0 +1,21 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:16.7.4-ee.0
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.0.101:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+    ports:
+      - '8929:8929'
+      - '443:443'
+      - '2424:2424'
+    volumes:
+      - '${GITLAB_HOME}/config:/etc/gitlab'
+      - '${GITLAB_HOME}/logs:/var/log/gitlab'
+      - '${GITLAB_HOME}/data:/var/opt/gitlab'
+      - '/etc/localtime:/etc/localtime:ro'
+      - './sshd.conf:/etc/ssh/sshd_config.d/sshd.conf'
+    shm_size: '256m'
