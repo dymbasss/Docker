@@ -1,0 +1,15 @@
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:2.20.3-alpine
+    volumes:
+      - "portainer_data:/data:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+    restart: always
+    network_mode: bridge
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+volumes:
+  portainer_data:
+    name: portainer_data
