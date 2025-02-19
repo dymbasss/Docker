@@ -1,0 +1,33 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.7-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - TZ=Europe/Moscow
+    restart: always
+    hostname: rabbitmq
+    volumes:
+        - "rabbitmq_data:/var/lib/rabbitmq:rw"
+    networks:
+      production:
+        ipv4_address: 172.18.0.2
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  rabbitmq_data:
+    name: rabbitmq_data
+
+networks:
+  production:
+    driver: bridge
+    name: production
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+          ip_range: 172.18.0.0/24
+          gateway: 172.18.0.1
