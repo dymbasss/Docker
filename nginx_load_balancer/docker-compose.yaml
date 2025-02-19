@@ -1,0 +1,23 @@
+services:
+  nginx_load_balancer_gate_rest_api:
+    container_name: ${CONTAINER_NAME}
+    build: .
+    hostname: ${CONTAINER_NAME}
+    restart: always
+    networks:
+      production:
+        ipv4_address: 172.18.0.95
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - "nginx_log:/usr/src/nginx/logs:rw"
+    expose:
+      - ${PORT_2}
+
+volumes:
+  nginx_log:
+    external: True
+
+networks:
+  production:
+    external: True
