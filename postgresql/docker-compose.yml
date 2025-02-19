@@ -1,0 +1,23 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgresql
+    build: .
+    # user: "1000:1000"
+    volumes:
+      - "postgresql_data:/var/lib/postgresql:rw"
+    # restart: always
+    hostname: postgresql
+    networks:
+      production:
+        ipv4_address: 172.18.0.100
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgresql_data:
+    external: true
+      
+networks:
+  production:
+    external: true
